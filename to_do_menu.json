@@ -1,0 +1,90 @@
+{
+  "type": "bubble",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "which date do you want to search?",
+        "weight": "bold",
+        "size": "lg",
+        "align": "start"
+      }
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "sm",
+    "contents": [
+      {
+        "type": "button",
+        "style": "primary",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "today",
+          "text": "today"
+        },
+        "color": "#9596A5"
+      },
+      {
+        "type": "button",
+        "style": "secondary",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "tomorrow",
+          "text": "today+1"
+        },
+        "margin": "md"
+      },
+      {
+        "type": "button",
+        "style": "secondary",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "2021/12/23",
+          "text": "today+2"
+        },
+        "margin": "md"
+      },
+      {
+        "type": "button",
+        "style": "secondary",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "2021/12/24",
+          "text": "today+2"
+        },
+        "margin": "md"
+      },
+      {
+        "type": "button",
+        "style": "secondary",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "2021/12/25",
+          "text": "today+2"
+        },
+        "margin": "md"
+      },
+      {
+        "type": "button",
+        "style": "secondary",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "other dates",
+          "text": "today+2"
+        },
+        "margin": "md"
+      }
+    ],
+    "flex": 0
+  }
+}

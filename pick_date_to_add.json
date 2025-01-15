@@ -1,0 +1,34 @@
+{
+  "type": "bubble",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "please pick a date to add to-do: ",
+        "weight": "bold",
+        "size": "sm"
+      }
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "sm",
+    "contents": [
+      {
+        "type": "button",
+        "style": "link",
+        "height": "sm",
+        "action": {
+          "type": "datetimepicker",
+          "label": "📅 pick a date",
+          "data": "date",
+          "mode": "date"
+        }
+      }
+    ],
+    "flex": 0
+  }
+}

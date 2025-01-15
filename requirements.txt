@@ -1,0 +1,7 @@
+Flask==2.2.5
+line-bot-sdk==2.0.1
+requests==2.31.0
+google-cloud-datastore==2.4.0
+google-cloud-firestore==2.3.4
+google-auth==2.3.3
+protobuf==3.20.2

@@ -1,0 +1,75 @@
+{
+  "type": "bubble",
+  "hero": {
+    "type": "image",
+    "url": "https://images.unsplash.com/photo-1630751625754-c28ef24e7865?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTM1fHxkaWNlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
+    "size": "full",
+    "aspectRatio": "20:13",
+    "aspectMode": "cover",
+    "action": {
+      "type": "uri",
+      "uri": "http://linecorp.com/"
+    }
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "please choose the difficulty level: ",
+        "weight": "bold",
+        "size": "lg",
+        "margin": "md"
+      },
+      {
+        "type": "text",
+        "text": "please choose the difficulty level\nor enter q to quit the game",
+        "margin": "lg",
+        "flex": 5,
+        "size": "xs"
+      }
+    ],
+    "margin": "lg",
+    "spacing": "md"
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "sm",
+    "contents": [
+      {
+        "type": "button",
+        "style": "secondary",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "easy 1~20",
+          "text": "1~20"
+        }
+      },
+      {
+        "type": "button",
+        "style": "secondary",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "medium 1~99",
+          "text": "1~99"
+        }
+      },
+      {
+        "type": "button",
+        "style": "secondary",
+        "height": "sm",
+        "action": {
+          "type": "message",
+          "label": "hard 101~999",
+          "text": "101~999"
+        }
+      }
+    ],
+    "flex": 0,
+    "margin": "xl"
+  }
+}

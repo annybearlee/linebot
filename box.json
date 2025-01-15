@@ -1,0 +1,18 @@
+{
+            "type": "flex",
+            "altText": "altText",
+            "contents":
+                {
+                    "type": "bubble",
+                    "body": {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "Brown Cafe"
+                            }
+                        ]
+                    }
+                }
+        }
