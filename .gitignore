@@ -1,0 +1,9 @@
+# Environment variables
+.env
+.env.*
+
+# Google Cloud credentials
+google_key.json
+
+# App Engine secrets
+app.yaml
