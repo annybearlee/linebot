@@ -31,7 +31,7 @@ app = Flask(__name__)
 line_bot_key = os.environ['line_bot_api']
 line_bot_api = LineBotApi(line_bot_key)
 channel_secret = os.environ.get("CHANNEL_SECRET")
-handler = WebhookHandler(channel_secret)  # Initialize with CHANNEL_SECRET
+handler = WebhookHandler(channel_secret)
 
 
 @app.route('/', methods=['GET','POST'])
@@ -62,6 +62,7 @@ def get_user_id(event):
         # error handle
         return "Cannot get User ID"
 
+
 def reset_user_data(user_id):
     try:
         key = datastore_client.key('Task4', user_id)
@@ -80,6 +81,7 @@ def handle_message(event):
         reset_user_data(user_id)
         line_bot_api.reply_message(event.reply_token, TextSendMessage("Your data has been reset. You can start fresh!"))
         return
+
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -125,7 +127,6 @@ def check_number(num, task):
         task['score'] -= 1
         datastore_client.put(task)
         return f"Too high. Try again. Current score: {task['score']}/20"
-
 
 
 cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
@@ -204,7 +205,7 @@ def check_if_quit_mode(message, event, task, mode):
 
 # Respond when no to-do items are found for a specific date
 def no_todo_found_reply(event, date):
-    j = json.load(open('no_todo_found.json', 'r', encoding='utf-8'))
+    j = json.load(open('templates/no_todo_found.json', 'r', encoding='utf-8'))
     j['body']['contents'][0]['contents'][0]['contents'][0]['text'] = f"No to-do items found for {date}"
     j['footer']['contents'][0]['action']['text'] = f"+{date}"
     flex_message = FlexSendMessage(
@@ -274,7 +275,7 @@ def handle_postback(event):
     if task['view-mode'] == 2:
         date = event.postback.params['date']
         send = f"Your to-do items for {date}:\n\n"
-        j = json.load(open('brown2.json', 'r', encoding='utf-8'))
+        j = json.load(open('templates/brown2.json', 'r', encoding='utf-8'))
         try:
             to_do = task['to-do'][date]
             if len(to_do) == 0:
@@ -338,7 +339,7 @@ def handle_postback(event):
     if task['view-mode'] == 2:
         date = event.postback.params['date']
         send = f"Your to-do items for {date}:\n\n"
-        j = json.load(open('brown2.json', 'r', encoding='utf-8'))
+        j = json.load(open('templates/brown2.json', 'r', encoding='utf-8'))
 
         try:
             # Check if tasks exist for the selected date
@@ -389,7 +390,7 @@ def handle_message(event):
     # Add mode: Initializing task addition
     if task['add-mode'] == 2:
         check_if_quit_mode(message, event, task, 'add-mode')
-        j = json.load(open('pick_date_to_add.json', 'r', encoding='utf-8'))
+        j = json.load(open('templates/pick_date_to_add.json', 'r', encoding='utf-8'))
         j['body']['contents'][0]['text'] = "Please use the date picker to select a date, or type 'q' to exit add mode."
         flex_message = FlexSendMessage(
             alt_text='Pick a date',
@@ -408,7 +409,7 @@ def handle_message(event):
 
         task['add-mode'] = 0
         datastore_client.put(task)
-        j = json.load(open('brown2.json', 'r', encoding='utf-8'))
+        j = json.load(open('templates/brown2.json', 'r', encoding='utf-8'))
 
         if task['date-to-add'] == today:
             display_today(event, j, task, today)
@@ -418,17 +419,17 @@ def handle_message(event):
     # View mode: Displaying tasks for a specific date
     elif "@" in message:
         message = message.replace("@", "")
-        if message == "Other dates":
+        if message == "other dates":
             task['view-mode'] = 2
             datastore_client.put(task)
-            j = json.load(open('pick_a_date.json', 'r', encoding='utf-8'))
+            j = json.load(open('templates/pick_a_date.json', 'r', encoding='utf-8'))
             flex_message = FlexSendMessage(
                 alt_text='Pick a date',
                 contents=j
             )
             line_bot_api.reply_message(event.reply_token, flex_message)
         else:
-            j = json.load(open('brown2.json', 'r', encoding='utf-8'))
+            j = json.load(open('templates/brown2.json', 'r', encoding='utf-8'))
             send = f"Your to-do items for {message} are:\n\n"
             try:
                 to_do = task['to-do'][message]
@@ -494,7 +495,7 @@ def handle_message(event):
         task['edit-mode'] = 0
         datastore_client.put(task)
         today = str(dt.now().date())
-        j = json.load(open('brown2.json', 'r', encoding='utf-8'))
+        j = json.load(open('templates/brown2.json', 'r', encoding='utf-8'))
 
         # If the edited task is for today, display today's to-do list
         if task['date-to-edit'] == today:
@@ -508,80 +509,54 @@ def handle_message(event):
     # Delete To-Do Mode: Receiving the index of the task to delete
 
     elif task['delete-mode'] == 1:
-
         check_if_quit_mode(message, event, task, "delete-mode")
-
         index = 0
-
         success = 1
 
         # Step 1: Check if the user input is a valid number
-
         try:
-
             index = int(message) - 1  # Adjusting for 0-based index
-
         except:
-
             success = 0
-
             line_bot_api.reply_message(event.reply_token,
                                        TextSendMessage("Please enter a valid number, or type 'q' to exit delete mode."))
 
         # Step 2: Check if the number is greater than zero
-
         if success == 1:
-
             if int(message) > 0:
-
                 success = 2
 
             else:
-
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(
                     "Please enter a number greater than zero, or type 'q' to exit delete mode."))
 
         # Step 3: Check if the number is within the range of the to-do list
 
         if success == 2:
-
             try:
-
                 # Remove the task from the to-do list
-
                 task['to-do'][task['date-to-delete']].pop(index)
-
                 task['delete-mode'] = 0
-
                 datastore_client.put(task)
 
                 # If no tasks remain for the date
-
                 if len(task['to-do'][task['date-to-delete']]) == 0:
-
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(
                         f"Task successfully deleted. No tasks remain for {task['date-to-delete']}."))
 
                 else:
-
                     today = str(dt.now().date())
-
-                    j = json.load(open('brown2.json', 'r', encoding='utf-8'))
+                    j = json.load(open('templates/brown2.json', 'r', encoding='utf-8'))
 
                     # If the date is today, display today's to-do list
-
                     if task['date-to-delete'] == today:
-
                         display_today(event, j, task, today)
 
                     else:  # Display tasks for other dates
-
                         send = f"Task successfully deleted. Your to-do items for {task['date-to-delete']} are:\n\n"
-
                         display_other_day(event, j, task, send, "date-to-delete")
 
             except:  # Index out of range
-
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(
                     "Please enter a number within the valid range, or type 'q' to exit delete mode."))
 
@@ -600,7 +575,7 @@ def handle_message(event):
                 f"Let's play 'Guess the Number'! Pick a number between {message[0]} and {message[1]}."))
         # If the input is invalid, prompt the user to select the range again or exit
         except:
-            j = json.load(open('guess_menu_2.json', 'r', encoding='utf-8'))
+            j = json.load(open('templates/guess_menu_2.json', 'r', encoding='utf-8'))
             flex_message = FlexSendMessage(
                 alt_text='guess_number_menu',
                 contents=j
@@ -613,7 +588,7 @@ def handle_message(event):
         reply = check_number(message, task)
         # If the guess is correct or the game ends (e.g., by quitting), display the result
         if "correct" in reply or "end" in reply:
-            j = json.load(open('game_2.json', 'r', encoding='utf-8'))
+            j = json.load(open('templates/game_2.json', 'r', encoding='utf-8'))
             # Show "Challenge Failed" if the game ended or the user ran out of attempts
             if "end" in reply:
                 j['body']['contents'][0]['text'] = "Challenge Failed"
@@ -689,7 +664,7 @@ def handle_message(event):
                 datastore_client.put(task)
 
             # Compare results and prepare final Flex Message
-            j = json.load(open('game-21.json', 'r', encoding='utf-8'))
+            j = json.load(open('templates/game-21.json', 'r', encoding='utf-8'))
             j['body']['contents'][0]['text'] = compare(task['game-21']['user_score'], task['game-21']['computer_score'])
             j['body']['contents'][1]['contents'][0]['contents'][1]['text'] = str(task['game-21']['user_cards'])
             j['body']['contents'][1]['contents'][1]['contents'][1]['text'] = str(task['game-21']['user_score'])
@@ -705,7 +680,7 @@ def handle_message(event):
     # ----------------------------------- others --------------------------------------------------#
 
     elif "encourage" in message:
-        j = json.load(open('quoting.json','r',encoding='utf-8'))
+        j = json.load(open('templates/quoting.json', 'r', encoding='utf-8'))
         j['body']['contents'][0]['contents'][0]['contents'][0]['text'] = get_quote()
         flex_message = FlexSendMessage(
             alt_text='quotes',
@@ -713,7 +688,7 @@ def handle_message(event):
         )
         line_bot_api.reply_message(event.reply_token, flex_message)
     elif "game" in message:
-        j = json.load(open('game_menu.json','r',encoding='utf-8'))
+        j = json.load(open('templates/game_menu.json', 'r', encoding='utf-8'))
         flex_message = FlexSendMessage(
             alt_text='game_menu',
             contents=j
@@ -721,11 +696,10 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, flex_message)
 
     elif "number guessing" in message:
-        # 將遊戲數值初始化
         task['game-mode'] = 1
         task['score'] = 20
         datastore_client.put(task)
-        j = json.load(open('guess_number_menu.json','r', encoding='utf-8'))
+        j = json.load(open('templates/guess_number_menu.json', 'r', encoding='utf-8'))
         flex_message = FlexSendMessage(
             alt_text='guess_number_menu',
             contents=j
@@ -743,7 +717,7 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage("Welcome to blackjack game, enter y to draw a card, q to quit"))
 
     elif message == "to-do":
-        j = json.load(open('todo_start.json', 'r', encoding='utf-8'))
+        j = json.load(open('templates/todo_start.json', 'r', encoding='utf-8'))
         flex_message = FlexSendMessage(
             alt_text='to-do',
             contents=j
@@ -753,7 +727,7 @@ def handle_message(event):
     elif "add to-do" in message:
         task["add-mode"] = 2
         datastore_client.put(task)
-        j = json.load(open('pick_date_to_add.json','r',encoding='utf-8'))
+        j = json.load(open('templates/pick_date_to_add.json', 'r', encoding='utf-8'))
         flex_message = FlexSendMessage(
             alt_text='pick a date',
             contents=j
@@ -761,7 +735,7 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, flex_message)
 
     elif "view" in message:
-        j = json.load(open('to_do_menu.json','r',encoding='utf-8'))
+        j = json.load(open('templates/to_do_menu.json', 'r', encoding='utf-8'))
         today = dt.now().date()
         tomorrow = str(today+timedelta(days=1))
         today_plus_2 = str(today+timedelta(days=2))
@@ -819,7 +793,7 @@ def handle_message(event):
     elif message == "today":
         today = dt.now().date()
         today = str(today)
-        j = json.load(open('brown2.json','r',encoding='utf-8'))
+        j = json.load(open('templates/brown2.json', 'r', encoding='utf-8'))
         try:
             to_do = task['to-do'][today]
             if len(to_do) == 0:
@@ -831,7 +805,7 @@ def handle_message(event):
             no_todo_found_reply(event, today)
 
     elif message == "help":
-        j = json.load(open('questions.json','r',encoding='utf-8'))
+        j = json.load(open('templates/questions.json', 'r', encoding='utf-8'))
         flex_message = FlexSendMessage(
             alt_text='contact',
             contents=j

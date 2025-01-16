@@ -17,7 +17,7 @@
     "contents": [
       {
         "type": "text",
-        "text": "待辦事項",
+        "text": "to-do",
         "weight": "bold",
         "size": "xl"
       },
@@ -40,7 +40,7 @@
             "contents": [
               {
                 "type": "text",
-                "text": "您今天的待辦事項有：\n1.遛狗\n2.烤蛋糕\n3.陪財材玩",
+                "text": "Your to-do: \n1.遛狗\n2.烤蛋糕\n3.陪財材玩",
                 "wrap": true,
                 "color": "#666666",
                 "size": "md",
@@ -63,7 +63,7 @@
         "height": "sm",
         "action": {
           "type": "message",
-          "label": "新增",
+          "label": "add",
           "text": "+2021/12/21"
         }
       },
@@ -73,7 +73,7 @@
         "height": "sm",
         "action": {
           "type": "message",
-          "label": "編輯",
+          "label": "edit",
           "text": "#2021/12/21"
         }
       },
@@ -83,7 +83,7 @@
         "height": "sm",
         "action": {
           "type": "message",
-          "label": "刪除事項",
+          "label": "delete",
           "text": "$2021/12/21"
         }
       }
