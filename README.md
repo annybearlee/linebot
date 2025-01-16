@@ -86,19 +86,16 @@ Ensure that the GOOGLE_APPLICATION_CREDENTIALS variable points to a valid servic
 
 Add the Bot on LINE
 
-Search for the bot name (有事找雪雪) in the LINE app or scan the QR code provided in your LINE Developer Console.
+Search for the bot name (有事找熊熊) in the LINE app or scan the QR code provided in your LINE Developer Console.
 
 Interact with the Bot
 
-Type 待辦 ("To-Do") to manage tasks.
+Type "to-Do" to manage tasks.
 
 Play games like 猜數字 ("Guess the Number") or 21點 ("21-Point Blackjack").
 
-Type 疑難雜症 ("Help") to ask questions or get assistance.
+Type "help" to ask questions or get assistance.
 
-File Structure
 
-chatbot.
-
-Built with love by Anny Lee.
+## Built with love by Anny Lee.
 
