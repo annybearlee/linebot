@@ -4,27 +4,18 @@ Bear Assistant (有事找熊熊) is a LINE chatbot designed to assist users with
 
 ## Features
 
-1. Number Guessing Game
-
-Users can play a fun "Guess the Number" game by selecting a range of numbers.
-
-The bot keeps track of scores and provides feedback for each guess.
-
-2. 21-Point Blackjack Game
+1. 21-Point Blackjack Game
 
 Play a simplified version of the 21-point blackjack game.
 
 The bot acts as the dealer, and users can decide whether to draw more cards or stop.
 
-3. To-Do List Management
+2. To-Do List Management
 
 Add, view, edit, and delete tasks based on specific dates.
 
 Supports flexible and interactive date-based task management.
 
-4. General Assistance
-
-Provides helpful responses to questions and other interactions.
 
 Project Setup
 
